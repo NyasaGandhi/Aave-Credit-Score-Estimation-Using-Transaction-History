@@ -1,35 +1,53 @@
 # Credit Score Assignment using Aave V2 Transaction Data
 
-## Overview
+# Aave Credit Score
+This project analyzes on-chain wallet transactions from the Aave V2 protocol to assign a credit score (0–1000) to each user wallet based on borrowing and repayment behavior.
 
-This project processes user-wallet transactions from the Aave V2 protocol to engineer features and assign credit scores. The aim is to analyze DeFi behavior and generate a trustworthiness metric (score from 0 to 1000) for each wallet.
+## Objective
+To build a lightweight credit scoring model using rule-based logic and historical DeFi transaction data. The goal is to evaluate wallet trustworthiness for potential use in DeFi credit risk assessment.
 
-##  Dataset
+## Project Structure
+aave_credit_score/
+├── user-wallet-transactions.json # Raw transaction data
+├── Untitled.ipynb # Main notebook with feature extraction & scoring
+├── wallet_credit_scores.xlsx # Final wallet scores
+├── score_distribution.png # Score distribution visualization
+├── analysis.md # Project analysis and explanation
 
-- **Source**: A JSON file containing historical user-wallet transaction data from the Aave V2 protocol.
-- **Structure**: Each transaction record includes:
-  - `userWallet`: Wallet address
-  - `action`: Type of transaction (e.g., deposit, borrow, repay, etc.)
-  - `actionData`: Contains transaction-specific fields like `amount`
-  - `timestamp`, `txHash`, etc.
+## Features Engineered
 
-##  Feature Engineering
+For each wallet:
+- Total number of transactions
+- Number of borrows & total borrowed amount
+- Number of repayments & total repaid amount
+- Repayment ratio (repaid/borrowed)
+- Custom score calculated based on these features
 
-For each unique wallet, the following features are computed:
+## Scoring Logic
 
-- `num_txns`: Total number of transactions
-- `num_deposit`, `num_borrow`, `num_repay`, etc.: Counts of each action type
-- `total_deposit`, `total_borrowed`, `total_repaid`: Summed amounts for key actions
-- `repay_ratio`: Ratio of total repaid to total borrowed
+The credit score is based on a simple rule-based formula:
+- High repayment ratio
+- Higher total repaid amounts
+- More consistent borrowing behavior
 
-##  Credit Score Logic
+Scores range from **0 (poor)** to **1000 (excellent)**.
 
-A rule-based scoring system could look like this:
+## Output
 
-```python
-if repay_ratio >= 0.9 and total_borrowed > 0:
-    score = 900
-elif repay_ratio >= 0.5:
-    score = 600
-else:
-    score = 300
+- Wallet-level scores saved in `wallet_credit_scores.xlsx`
+- Score distribution graph: `score_distribution.png`
+
+##  Tech Stack
+
+- Python (Pandas, Matplotlib)
+- Jupyter Notebook
+- JSON for data handling
+- Excel for output export
+
+## Future Work
+- Integrate ML-based scoring
+- Deploy as a Streamlit app
+- Add support for multiple DeFi protocols
+
+## Author
+Nyasa Gandhi
